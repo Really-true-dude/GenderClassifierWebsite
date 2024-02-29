@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
 </head>
 <body>
+    {% if gender %}
+        <h4>Predictions: Female: {{ "%.2f"|format(gender["Female"]) }}% ; {{ "%.2f"|format(gender["Male"])}}%</h4>
+    {% endif %}
     {% if filename %}
-        <img src="{{ url_for('display_image', filename=filename) }}" alt="uploaded image">
+        <img src="{{ url_for('display_image', filename=filename) }}" width = "512px" alt="uploaded image">
     {% endif %}
     <form action="/upload" method="post" enctype="multipart/form-data">
         <input type="file" name="file">

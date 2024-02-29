@@ -2,6 +2,9 @@ from flask import Flask, render_template, redirect, url_for, request
 from werkzeug.utils import secure_filename
 import os
 
+from model import ClassifierModel, device, class_names, transform
+from engine import PredictOnImage
+
 app = Flask(__name__)
 
 UPLOAD_FOLDER = 'static/uploads/'
@@ -30,13 +33,19 @@ def upload_image():
             print(filename)
             file.save(os.path.join( UPLOAD_FOLDER, filename))
 
-            return render_template('index.html', filename=filename)
+            gender = PredictOnImage(model=ClassifierModel,
+                                    image_path='static/uploads/' + filename,
+                                    class_names = class_names,
+                                    transform=transform,
+                                    device=device)
+
+            return render_template('index.html', filename=filename, gender=gender)
         else:
             return 'Not allowed file.'
 
 @app.route('/display/<filename>')
 def display_image(filename):
-    return redirect(url_for('static', 'uploads/' + filename), code=301)
+    return redirect(url_for('static', filename='uploads/' + filename), code=301)
 
 if __name__ == '__main__':
     app.run(debug=True)
