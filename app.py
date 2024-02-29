@@ -47,5 +47,11 @@ def upload_image():
 def display_image(filename):
     return redirect(url_for('static', filename='uploads/' + filename), code=301)
 
+@app.route('/delete/<filename>', methods=['GET', 'POST'])
+def delete_image(filename):
+    os.remove(os.path.join(UPLOAD_FOLDER, filename))
+    return redirect(url_for('home_page'), code=302)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
