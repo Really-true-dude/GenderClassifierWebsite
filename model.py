@@ -1,0 +1,26 @@
+import torch
+from torch import nn
+import torchvision
+from torchvision import transforms
+
+device = "cuda" if torch.cuda.is_available() else "cpu"
+class_names = ["Female", "Male"]
+
+transform = transforms.Compose([
+   transforms.Resize(size=(224,224))
+])
+
+# Overriding the API to not get an error
+from torchvision.models._api import WeightsEnum
+from torch.hub import load_state_dict_from_url
+def get_state_dict(self, *args, **kwargs):
+    kwargs.pop("check_hash")
+    return load_state_dict_from_url(self.url, *args, **kwargs)
+WeightsEnum.get_state_dict = get_state_dict
+
+weights = torchvision.models.EfficientNet_B0_Weights.DEFAULT # .DEFAULT = best available weights
+model = torchvision.models.efficientnet_b0(weights=weights).to(device)
+
+## Freezing the model parameters
+for param in model.features.parameters():
+  param.requires_grad = False

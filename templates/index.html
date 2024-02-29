@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<head>
+    <title>Classifier</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    {% if filename %}
+        <img src="{{ url_for('display_image', filename=filename) }}" alt="uploaded image">
+    {% endif %}
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="Upload">
+    </form>
+
+</body>
