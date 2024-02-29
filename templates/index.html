@@ -2,22 +2,32 @@
     <html>
     <head>
         <title>Classifier</title>
+        <link rel="stylesheet" href="../static/css/style.css">
         <meta charset="UTF-8">
     </head>
     <body>
-        {% if gender %}
-            <h4>Predictions: Female: {{ "%.2f"|format(gender["Female"]) }}% ; {{ "%.2f"|format(gender["Male"])}}%</h4>
-        {% endif %}
-        {% if filename %}
-            <img src="{{ url_for('display_image', filename=filename) }}" width = "512px" alt="uploaded image">
-        {% endif %}
-        <form action="/upload" method="post" enctype="multipart/form-data">
-            <input type="file" name="file">
-            <input type="submit" value="Upload">
-        </form>
-        <form action="/delete/{{ filename }}">
-            <input type="submit" value="Clear">
-        </form>
+        <div class="header">
+            <h3>Gender Classifier</h3>
+            <p></p>
+        </div>
+        <div class="classifier">
 
+            {% if gender %}
+                <h4>Predictions: Female: {{ "%.2f"|format(gender["Female"]) }}% ; Male: {{ "%.2f"|format(gender["Male"])}}%</h4>
+            {% endif %}
+            {% if filename %}
+                <img src="{{ url_for('display_image', filename=filename) }}" width = "400px" alt="uploaded image">
+            {% else %}
+                <img src="{{ url_for('static', filename='images/no-image-placeholder.png')}}" width="400px" alt="no-image-placeholder">
+            {% endif %}
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <input class=''type="file" name="file" id="file" accept="image/*" style="display: none;">
+                <label for="file" class="button-23">Browse..</label>
+                <input class="button-28" type="submit" value="Upload">
+            </form>
+            <form action="/delete/{{ filename }}">
+                <input type="submit" value="Clear">
+            </form>
+        </div>
     </body>
 </html>

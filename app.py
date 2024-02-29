@@ -9,6 +9,7 @@ app = Flask(__name__)
 
 UPLOAD_FOLDER = 'static/uploads/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+placeholderPath = "no-imag-placeholder.jpg"
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
